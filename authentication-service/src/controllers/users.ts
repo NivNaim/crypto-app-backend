@@ -24,7 +24,7 @@ export const sendToDashboard = async (
   //   symbolValues: symbolValues,
   // });
   try {
-    await axios.post("http://localhost:3001/dashboard");
+    // await axios.post("http://localhost:3001/dashboard");
 
     res.send(authenticatedUserId);
   } catch (err) {
