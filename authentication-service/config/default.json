@@ -1,0 +1,17 @@
+{
+  "github": {
+    "clientId": "ac4f8d17672686d9d69a",
+    "secret": "eb96d1301010fdc3e2759e4958e6cd07a7ad6604"
+  },
+
+  "mongo": {
+    "host": "localhost",
+    "db": "mymongo",
+    "port": 27017
+  },
+
+  "app": {
+    "host": "localhost",
+    "port": 3000
+  }
+}
