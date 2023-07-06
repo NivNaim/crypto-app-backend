@@ -1,4 +1,4 @@
-import express, { Response, NextFunction } from "express";
+import express from "express";
 import config from "config";
 import session from "express-session";
 import auth from "./middlewares/auth";

@@ -7,11 +7,3 @@ services:
       MONGO_INITDB_DATABASE: crypto-app
     ports:
       - 27017:27017
-
-  app:
-    build:
-      context: .
-    ports:
-      - '3000:3000'
-    depends_on:
-      - mongo

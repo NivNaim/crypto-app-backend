@@ -13,5 +13,10 @@
   "app": {
     "host": "localhost",
     "port": 3000
+  },
+
+  "token": {
+    "secret": "my secret key",
+    "expiresIn": "1h"
   }
 }
