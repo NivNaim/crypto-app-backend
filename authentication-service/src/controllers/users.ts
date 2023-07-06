@@ -1,8 +1,5 @@
 import { NextFunction, Response } from "express";
 import { CustomRequest } from "../types/custom-request";
-import UserSymbol from "../models/user-symbol";
-import SymbolValue from "../models/symbol-value";
-import axios from "axios";
 import jwt from "jsonwebtoken";
 import config from "config";
 
