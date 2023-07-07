@@ -13,5 +13,16 @@
   "token": {
     "secret": "my secret key",
     "expiresIn": "1h"
+  },
+
+  "worker": {
+    "interval": 10000,
+    "host": "localhost",
+    "port": 3001
+  },
+
+  "exchange-rates": {
+    "api-key": "9d49a2a57abe77474fdfa3a9",
+    "base-currency": "USD"
   }
 }
