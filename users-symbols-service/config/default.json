@@ -8,5 +8,10 @@
   "app": {
     "host": "localhost",
     "port": 3001
+  },
+
+  "token": {
+    "secret": "my secret key",
+    "expiresIn": "1h"
   }
 }

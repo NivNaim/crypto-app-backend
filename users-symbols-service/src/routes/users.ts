@@ -1,8 +1,21 @@
 import express, { Router } from "express";
-import { dashboard } from "../controllers/users";
+import {
+  addSymbol,
+  dashboard,
+} from "../controllers/user-controller/controller";
+import inputValidator from "../middlewares/input-validator";
+import { symbolSchema } from "../controllers/user-controller/input-validator";
+import { verifyToken } from "../middlewares/verifyToken";
 
 const usersRouter: Router = express.Router();
 
-usersRouter.get("/dashboard", dashboard);
+usersRouter.get("/dashboard", verifyToken, dashboard);
+
+usersRouter.post(
+  "/add-symbol",
+  verifyToken,
+  inputValidator(symbolSchema),
+  addSymbol
+);
 
 export default usersRouter;
