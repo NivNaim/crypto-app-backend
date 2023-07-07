@@ -1,0 +1,17 @@
+{
+  "mongo": {
+    "host": "localhost",
+    "db": "mymongo",
+    "port": 27017
+  },
+
+  "app": {
+    "host": "localhost",
+    "port": 3002
+  },
+
+  "token": {
+    "secret": "my secret key",
+    "expiresIn": "1h"
+  }
+}
