@@ -21,8 +21,8 @@
     "port": 3001
   },
 
-  "exchange-rates": {
-    "api-key": "9d49a2a57abe77474fdfa3a9",
+  "cryptocompare": {
+    "api-key": "61bdf2d063fbe77a7c57d2e620c5017be44995157b46da53b90c83299807b7d1",
     "base-currency": "USD"
   }
 }
