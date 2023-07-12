@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_DATABASE: crypto-app
+    ports:
+      - 27017:27017

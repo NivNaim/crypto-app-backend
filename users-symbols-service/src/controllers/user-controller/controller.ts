@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import jwt, { Secret } from "jsonwebtoken";
 import config from "config";
 import UserSymbol from "../../models/user-symbol";
+import SymbolValue from "../../models/symbol-value";
 
 export const getUserIdFromToken = (token: string): string => {
   const tokenSecret = config.get("token.secret") as Secret;
@@ -35,7 +36,17 @@ export const dashboard = async (
 
     const symbols = userSymbols.map((userSymbol) => userSymbol.symbol);
 
-    res.send(symbols);
+    const symbolValues = await SymbolValue.find({ symbol: { $in: symbols } })
+      .sort({ timestamp: -1 })
+      .limit(symbols.length)
+      .exec();
+
+    const latestValues = symbolValues.reduce((result, symbolValue) => {
+      result[symbolValue.symbol] = symbolValue.value;
+      return result;
+    }, {});
+
+    res.send({ symbols, latestValues });
   } catch (err) {
     next(err);
   }
