@@ -1,9 +1,9 @@
 import express, { Router } from "express";
-import { sendToDashboard, logout } from "../controllers/users";
+import { signin, logout } from "../controllers/users";
 
 const usersRouter: Router = express.Router();
 
-usersRouter.get("/dashboard", sendToDashboard);
+usersRouter.get("/dashboard", signin);
 
 usersRouter.get("/logout", logout);
 

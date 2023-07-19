@@ -12,7 +12,7 @@ const generateAuthToken = (userId: string): string => {
   return token;
 };
 
-export const sendToDashboard = async (
+export const signin = async (
   req: CustomRequest,
   res: Response,
   next: NextFunction
