@@ -8,8 +8,8 @@ githubRouter.get("/", auth.authenticate("github", { scope: ["user:email"] }));
 githubRouter.get(
   "/callback",
   auth.authenticate("github", {
-    failureRedirect: "/welcome",
-    successRedirect: "/dashboard",
+    failureRedirect: "/",
+    successRedirect: "/send-to-dashboard",
   })
 );
 

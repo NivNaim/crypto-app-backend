@@ -3,7 +3,7 @@ import { sendToDashboard, logout } from "../controllers/users";
 
 const usersRouter: Router = express.Router();
 
-usersRouter.get("/dashboard", sendToDashboard);
+usersRouter.get("/send-to-dashboard", sendToDashboard);
 
 usersRouter.get("/logout", logout);
 
