@@ -6,17 +6,25 @@ import { IUser } from "../types/user";
 const UserSchema: Schema = new Schema<IUser>({
   email: {
     type: String,
-    required: true,
     unique: true,
   },
   password: {
     type: String,
-    required: true,
   },
   github_id: {
     type: String,
-    required: true,
   },
+});
+
+UserSchema.pre<IUser>("save", function (next) {
+  const hasGitHubAuth = !!this.github_id;
+  const hasEmailAndPassword = !!this.email && !!this.password;
+
+  if (!(hasGitHubAuth || hasEmailAndPassword)) {
+    next(new Error("At least one authentication method is required"));
+  } else {
+    next();
+  }
 });
 
 const User = mongoose.model<IUser>("User", UserSchema);
