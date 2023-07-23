@@ -1,7 +1,8 @@
 {
   "github": {
-    "clientId": "ac4f8d17672686d9d69a",
-    "secret": "eb96d1301010fdc3e2759e4958e6cd07a7ad6604"
+    "clientId": "58f8d33a48db495cd6a3",
+    "secret": "e7bae2b9604422d8c74814084127d175323ac988",
+    "clientUrl": "http://localhost:5173"
   },
 
   "mongo": {
