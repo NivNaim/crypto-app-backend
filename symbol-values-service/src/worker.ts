@@ -3,8 +3,9 @@ import axios from "axios";
 import io, { Socket } from "socket.io-client";
 
 import mongoConnection from "./middlewares/mongo";
-import UserSymbol from "./models/user-symbol";
 import SymbolValue from "./models/symbol-value";
+import Symbol from "./models/symbol";
+import { ISymbol } from "./types/symbol";
 
 const fetchCryproRates = async (
   symbol: string,
@@ -17,8 +18,13 @@ const fetchCryproRates = async (
       )}&api_key=${config.get("cryptocompare.api-key")}`
     );
 
+    const symbolDocument = await Symbol.findOne({ symbol });
+    if (!symbolDocument) {
+      throw new Error(`Symbol not found for ${symbol}`);
+    }
+
     const symbolValue = new SymbolValue({
-      symbol: symbol,
+      symbol: symbolDocument._id,
       value: response.data.USD,
     });
     await symbolValue.save();
@@ -27,7 +33,7 @@ const fetchCryproRates = async (
       symbol: symbolValue.symbol,
       value: symbolValue.value,
     });
-    console.log(`saved ${symbolValue.value} for ${symbolValue.symbol}`);
+    console.log(`saved ${response.data.USD} for ${symbol}`);
   } catch (error) {
     console.log("Error fetching exchange rates:", error);
     throw error;
@@ -35,7 +41,10 @@ const fetchCryproRates = async (
 };
 
 const loop = async (socket: Socket): Promise<void> => {
-  const symbols = await UserSymbol.distinct("symbol").exec();
+  const symbolsDocuments: ISymbol[] = await Symbol.find();
+  const symbols: string[] = symbolsDocuments.map(
+    (symbolDocument) => symbolDocument.symbol
+  );
   console.log(`loop: found this symbol array: ${symbols}`);
 
   const promises = symbols.map((symbol: string) =>

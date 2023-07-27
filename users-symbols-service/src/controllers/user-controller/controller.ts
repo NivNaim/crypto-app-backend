@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import jwt, { Secret } from "jsonwebtoken";
 import config from "config";
 import UserSymbol from "../../models/user-symbol";
+import Symbol from "../../models/symbol";
 import SymbolValue from "../../models/symbol-value";
 
 export const getUserIdFromToken = (token: string): string => {
@@ -18,7 +19,7 @@ export const getUserIdFromToken = (token: string): string => {
   throw new Error("Invalid token");
 };
 
-export const dashboard = async (
+export const getSymbolsWithValues = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -61,9 +62,23 @@ export const addSymbol = async (
   const symbol = req.body.symbol;
 
   try {
+    const symbolDocument = await Symbol.findOne({ symbol });
+    if (!symbolDocument) {
+      throw new Error(`Symbol not found for ${symbol}`);
+    }
+
+    const userId = getUserIdFromToken(token.toString());
+    const userSymbol = await UserSymbol.findOne({
+      user_id: userId,
+      symbol: symbolDocument._id,
+    });
+    if (userSymbol) {
+      throw new Error(`The symbol ${symbol} has been tracked by this user`);
+    }
+
     await UserSymbol.create({
-      user_id: getUserIdFromToken(token.toString()),
-      symbol: symbol,
+      user_id: userId,
+      symbol: symbolDocument._id,
     });
     res.send("symbol added");
   } catch (err) {

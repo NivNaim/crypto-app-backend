@@ -7,7 +7,7 @@
 
   "mongo": {
     "host": "localhost",
-    "db": "mymongo",
+    "db": "crypto-app",
     "port": 27017
   },
 

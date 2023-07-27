@@ -1,7 +1,8 @@
 import { Document } from "mongoose";
+import { ISymbol } from "./symbol";
 
 export interface ISymbolValue extends Document {
-  symbol: string;
+  symbol: ISymbol["_id"];
   value: number;
   createdAt: Date;
 }

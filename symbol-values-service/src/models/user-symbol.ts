@@ -7,10 +7,9 @@ const UserSymbolSchema: Schema = new Schema<IUserSymbol>({
     required: true,
   },
   symbol: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: "Symbol",
     required: true,
-    minlength: 3,
-    maxlength: 5,
   },
 });
 

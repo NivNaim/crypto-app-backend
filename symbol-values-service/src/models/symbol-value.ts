@@ -3,10 +3,8 @@ import { ISymbolValue } from "../types/symbol-value";
 
 const SymbolValueSchema: Schema = new Schema<ISymbolValue>({
   symbol: {
-    type: String,
-    required: true,
-    minlength: 3,
-    maxlength: 5,
+    type: Schema.Types.ObjectId,
+    ref: "Symbol",
   },
   value: { type: Number, required: true },
 });
