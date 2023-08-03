@@ -2,28 +2,40 @@ import express from "express";
 import config from "config";
 import cookieParser from "cookie-parser";
 import http from "http";
+import cors from "cors";
 import { Server } from "socket.io";
 
-import usersRouter from "./routes/users";
+import userRouter from "./routes/user";
 import { get400, get404, get500 } from "./middlewares/error";
 import mongoConnection from "./middlewares/mongo";
+import guestRouter from "./routes/guest";
 
 const app = express();
 const port = config.get("app.port");
 export const server = http.createServer(app);
-const io = new Server(server);
+
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 
 app.use(cookieParser());
-// app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.use(mongoConnection);
 
-app.use(usersRouter);
+app.use(guestRouter);
+app.use("/user", userRouter);
 
 app.use(get404);
 app.use(get400);
 app.use(get500);
+
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["my-custom-header"],
+    credentials: true,
+  },
+});
 
 io.on("connection", async (socket) => {
   console.log("A user connected");

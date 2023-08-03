@@ -2,7 +2,7 @@ import express from "express";
 import { Router } from "express";
 import config from "config";
 
-import auth from "../middlewares/auth";
+import auth from "../middlewares/auth-with-github";
 
 const githubRouter: Router = express.Router();
 

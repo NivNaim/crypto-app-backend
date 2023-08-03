@@ -1,8 +1,8 @@
 import express, { Router } from "express";
-import { welcome } from "../controllers/guest";
+import { getSymbols } from "../controllers/guest";
 
 const guestRouter: Router = express.Router();
 
-guestRouter.get("/", welcome);
+guestRouter.get("/get-symbols", getSymbols);
 
 export default guestRouter;

@@ -7,15 +7,15 @@ import inputValidator from "../middlewares/input-validator";
 import { symbolSchema } from "../controllers/user-controller/input-validator";
 import { verifyToken } from "../middlewares/verifyToken";
 
-const usersRouter: Router = express.Router();
+const userRouter: Router = express.Router();
 
-usersRouter.get("/get-symbols-with-values", verifyToken, getSymbolsWithValues);
+userRouter.get("/get-symbols-with-values", verifyToken, getSymbolsWithValues);
 
-usersRouter.post(
+userRouter.post(
   "/add-symbol",
   verifyToken,
   inputValidator(symbolSchema),
   addSymbol
 );
 
-export default usersRouter;
+export default userRouter;

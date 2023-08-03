@@ -1,4 +1,4 @@
-import { CustomRequest } from "./../types/custom-request.d";
+import { CustomRequest } from "../types/custom-request";
 import passport from "passport";
 import { Strategy as GitHubStrategy } from "passport-github2";
 import config from "config";
