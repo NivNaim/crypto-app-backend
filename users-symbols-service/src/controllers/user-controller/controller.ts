@@ -80,7 +80,7 @@ export const addSymbol = async (
       user_id: userId,
       symbol: symbolDocument._id,
     });
-    res.send("symbol added");
+    res.json(`symbol ${symbol} added`);
   } catch (err) {
     next(err);
   }

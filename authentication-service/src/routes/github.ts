@@ -10,7 +10,7 @@ githubRouter.get("/", auth.authenticate("github", { scope: ["user:email"] }));
 githubRouter.get(
   "/callback",
   auth.authenticate("github", {
-    successRedirect: `${config.get("github.clientUrl")}`,
+    successRedirect: `${config.get("github.successRedirect")}`,
     failureRedirect: "/",
   })
 );
