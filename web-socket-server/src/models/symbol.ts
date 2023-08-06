@@ -8,6 +8,7 @@ const SymbolSchema: Schema = new Schema<ISymbol>({
     minlength: 3,
     maxlength: 7,
     unique: true,
+    index: true,
   },
 });
 

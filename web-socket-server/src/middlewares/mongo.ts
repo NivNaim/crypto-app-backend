@@ -12,7 +12,9 @@ const mongoConnection = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    await mongoose.connect(dbUri);
+    await mongoose.connect(dbUri, {
+      useUnifiedTopology: true,
+    } as any);
     console.log("Connected to MongoDB");
     next();
   } catch (err) {
