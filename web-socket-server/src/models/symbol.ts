@@ -11,6 +11,8 @@ const SymbolSchema: Schema = new Schema<ISymbol>({
   },
 });
 
+SymbolSchema.index({ symbol: 1 });
+
 const Symbol = mongoose.model<ISymbol>("Symbol", SymbolSchema);
 
 export default Symbol;

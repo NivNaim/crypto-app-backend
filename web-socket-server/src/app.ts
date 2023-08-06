@@ -32,29 +32,6 @@ const io = new Server(server, {
   },
 });
 
-const BATCH_SIZE: number = config.get("batchSize");
-const BATCH_INSERT_INTERVAL: number = config.get("batchInsertInterval");
-
-const symbolValuesToInsert = [];
-
-const insertSymbolValuesBatch = async () => {
-  try {
-    if (symbolValuesToInsert.length === 0) {
-      return;
-    }
-
-    const batch = symbolValuesToInsert.splice(0, BATCH_SIZE);
-
-    await SymbolValue.insertMany(batch);
-
-    console.log(`Batch of ${batch.length} SymbolValue documents inserted.`);
-  } catch (err) {
-    console.log("Error performing batch insert:", err);
-  }
-};
-
-setInterval(insertSymbolValuesBatch, BATCH_INSERT_INTERVAL);
-
 io.on("connection", async (socket) => {
   console.log("A user connected");
 
@@ -72,24 +49,23 @@ io.on("connection", async (socket) => {
       );
 
       try {
-        const symbolDocument = await Symbol.findOne({
-          symbol: symbol,
-        }).maxTimeMS(30000);
-        console.log(symbolDocument);
+        const symbolDocument = await Symbol.findOne({ symbol });
+
         if (!symbolDocument) {
           throw new Error(`Symbol not found for ${symbol}`);
         }
 
-        const symbolValueData = {
+        const symbolValueData = new SymbolValue({
           symbol: symbolDocument._id,
-          value: value,
-          dateTime: dateTime,
-        };
+          value,
+          dateTime,
+        });
 
-        symbolValuesToInsert.push(symbolValueData);
+        await symbolValueData.save();
 
         socket.emit("data saved", { symbol, value, dateTime });
       } catch (err) {
+        socket.emit("data save error", { error: err.message });
         console.log(err);
       }
     }
