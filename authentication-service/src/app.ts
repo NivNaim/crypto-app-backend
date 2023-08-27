@@ -1,5 +1,4 @@
 import express from "express";
-import config from "config";
 import session from "express-session";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -11,12 +10,12 @@ import { get400, get404, get500 } from "./middlewares/error";
 import authRouter from "./routes/auth";
 
 const app = express();
-const port = config.get("app.port");
+const port = process.env.APP_PORT || 3000;
 
 app.use(express.json());
 
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: process.env.CORS_ORIGIN || "http://localhost:5173",
   credentials: true,
 };
 
@@ -25,7 +24,7 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(
   session({
-    secret: config.get("github.secret"),
+    secret: process.env.GITHUB_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
