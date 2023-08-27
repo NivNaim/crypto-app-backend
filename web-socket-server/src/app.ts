@@ -3,20 +3,15 @@ import http from "http";
 import cors from "cors";
 import { Server, Socket } from "socket.io";
 import axios from "axios";
-import config from "config";
 import Symbol from "./models/symbol";
 import { get400, get404, get500 } from "./middlewares/error";
-import { ISymbol } from "./types/symbol";
-import SymbolValue from "./models/symbol-value";
 import dbConnection from "./db/connection";
-import { ISymbolValue } from "./types/symbol-value";
-import { DefaultEventsMap } from "socket.io/dist/typed-events";
 
 const app = express();
-const port = config.get("socket-server.port");
-const loopTimeout: number = config.get("socket-server.timeout");
+const port = process.env.SOCKET_SERVER_PORT || 3002;
+const loopTimeout: number = parseInt(process.env.SOCKET_SERVER_TIMEOUT || "10000", 10);
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: process.env.CORS_ORIGIN || "http://localhost:5173",
   methods: ["GET", "POST"],
   allowedHeaders: ["my-custom-header"],
   credentials: true,
@@ -38,8 +33,8 @@ const fetchRealTimeValue = async (symbol) => {
       {
         params: {
           fsym: symbol,
-          tsyms: `${config.get("cryptocompare.base-currency")}`,
-          api_key: config.get("cryptocompare.api-key"),
+          tsyms: process.env.CRYPTO_BASE_CURRENCY || "USD",
+          api_key: process.env.CRYPTO_API_KEY,
         },
       }
     );
@@ -62,9 +57,9 @@ const fetchHistoricalValues = async (symbol) => {
       {
         params: {
           fsym: symbol,
-          tsym: `${config.get("cryptocompare.base-currency")}`,
+          tsym: process.env.CRYPTO_BASE_CURRENCY || "USD",
           limit: 7,
-          api_key: config.get("cryptocompare.api-key"),
+          api_key: process.env.CRYPTO_API_KEY,
         },
       }
     );
