@@ -1,13 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import jwt, { Secret } from "jsonwebtoken";
-import config from "config";
+import jwt from "jsonwebtoken";
 import UserSymbol from "../../models/user-symbol";
 import Symbol from "../../models/symbol";
 import SymbolValue from "../../models/symbol-value";
 
-export const getUserIdFromToken = (token: string): string => {
-  const tokenSecret = config.get("token.secret") as Secret;
+const tokenSecret = process.env.TOKEN_SECRET || "my secret key";
 
+export const getUserIdFromToken = (token: string): string => {
   try {
     const decodedToken = jwt.verify(token, tokenSecret);
     if (typeof decodedToken === "object" && "userId" in decodedToken) {
@@ -18,6 +17,7 @@ export const getUserIdFromToken = (token: string): string => {
   }
   throw new Error("Invalid token");
 };
+
 
 export const getSymbolsWithValues = async (
   req: Request,

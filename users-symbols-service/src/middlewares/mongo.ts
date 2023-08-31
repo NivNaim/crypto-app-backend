@@ -1,10 +1,7 @@
-import config from "config";
 import mongoose from "mongoose";
 import { Request, Response, NextFunction } from "express";
 
-const dbUri = `mongodb://${config.get("mongo.host")}:${config.get(
-  "mongo.port"
-)}/${config.get("mongo.db")}`;
+const dbUri = `mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}`;
 
 const mongoConnection = async (
   req: Request,

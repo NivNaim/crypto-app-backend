@@ -1,8 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import jwt, { Secret } from "jsonwebtoken";
-import config from "config";
+import jwt from "jsonwebtoken";
 
-const tokenSecret = config.get("token.secret") as Secret;
+const tokenSecret = process.env.TOKEN_SECRET || "my secret key";
 
 export const verifyToken = async (
   req: Request,

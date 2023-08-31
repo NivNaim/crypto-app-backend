@@ -1,0 +1,44 @@
+version: "3.8"
+services:
+  mongodb:
+    image: "mongo"
+    volumes:
+      - data:/data/db
+    env_file:
+      - ./env/mongo.env
+  authentication-service:
+    build: ./authentication-service
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./authentication-service/src:/app/src
+      - /app/node_modules
+    env_file:
+      - ./authentication-service/env/authentication-service.env
+    depends_on:
+      - mongodb
+  users-symbols-service:
+    build: ./users-symbols-service
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./users-symbols-service/src:/app/src
+      - /app/node_modules
+    env_file:
+      - ./users-symbols-service/env/users-symbols-service.env
+    depends_on:
+      - mongodb
+  web-socket-server:
+    build: ./web-socket-server
+    ports:
+      - "3002:3002"
+    volumes:
+      - ./web-socket-server/src:/app/src
+      - /app/node_modules
+    env_file:
+      - ./web-socket-server/env/web-socket-server.env
+    depends_on:
+      - mongodb
+
+volumes:
+  data:

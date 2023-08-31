@@ -9,7 +9,10 @@ import dbConnection from "./db/connection";
 
 const app = express();
 const port = process.env.SOCKET_SERVER_PORT || 3002;
-const loopTimeout: number = parseInt(process.env.SOCKET_SERVER_TIMEOUT || "10000", 10);
+const loopTimeout: number = parseInt(
+  process.env.SOCKET_SERVER_TIMEOUT || "10000",
+  10
+);
 const corsOptions = {
   origin: process.env.CORS_ORIGIN || "http://localhost:5173",
   methods: ["GET", "POST"],
@@ -50,7 +53,7 @@ const fetchRealTimeValue = async (symbol) => {
   }
 };
 
-const fetchHistoricalValues = async (symbol) => {
+const fetchHistoricalValues = async (symbol: string) => {
   try {
     const response = await axios.get(
       `https://min-api.cryptocompare.com/data/v2/histoday`,
