@@ -3,14 +3,16 @@ import bcrypt from "bcryptjs";
 import jwt, { Secret } from "jsonwebtoken";
 
 import User from "../../models/user";
-import config from "config";
 import { CustomRequest } from "../../types/custom-request";
 
+import * as dotenv from "dotenv";
+dotenv.config();
+
 export const generateAuthToken = (userId: string): string => {
-  const tokenSecret = config.get("token.secret") as Secret;
+  const tokenSecret = process.env.TOKEN_SECRET as Secret;
 
   const token = jwt.sign({ userId: userId }, tokenSecret, {
-    expiresIn: config.get("token.expiresIn"),
+    expiresIn: process.env.TOKEN_EXPIRES_IN,
   });
   return token;
 };
@@ -26,6 +28,7 @@ export const signUp = async (
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       res.status(409).send("Email already registered");
+      return;
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -51,11 +54,13 @@ export const login = async (
     const user = await User.findOne({ email });
     if (!user) {
       res.status(401).send("Invalid credentials");
+      return;
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       res.status(401).send("Invalid credentials");
+      return;
     }
 
     const token = generateAuthToken(user._id);

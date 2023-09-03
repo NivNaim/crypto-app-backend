@@ -10,7 +10,12 @@ import guestRouter from "./routes/guest";
 const app = express();
 const port = process.env.APP_PORT || 3001;
 
-app.use(cors({ origin: process.env.CORS_ORIGIN || "http://localhost:5173", credentials: true }));
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN || "http://localhost:5173",
+    credentials: true,
+  })
+);
 
 app.use(cookieParser());
 app.use(express.json());
