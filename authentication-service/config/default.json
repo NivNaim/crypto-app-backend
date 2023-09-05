@@ -1,12 +1,13 @@
 {
   "github": {
     "clientId": "58f8d33a48db495cd6a3",
-    "secret": "e7bae2b9604422d8c74814084127d175323ac988",
-    "successRedirect": "http://localhost:5173/user/dashboard"
+    "secret": "9a2782251d094c7fac443ded3f02edf90f35198d",
+    "successRedirect": "http://crypto-app-frontend:5173/user/dashboard",
+    "failureRedirect": "http://crypto-app-frontend:5173/auth/login"
   },
 
   "mongo": {
-    "host": "localhost",
+    "host": "mongodb",
     "db": "crypto-app",
     "port": 27017
   },

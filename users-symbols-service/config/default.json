@@ -1,6 +1,6 @@
 {
   "mongo": {
-    "host": "localhost",
+    "host": "mongodb",
     "db": "crypto-app",
     "port": 27017
   },
