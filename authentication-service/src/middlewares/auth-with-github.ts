@@ -1,6 +1,7 @@
 import { CustomRequest } from "../types/custom-request";
 import passport from "passport";
 import { Strategy as GitHubStrategy } from "passport-github2";
+import config from "config";
 
 import User from "../models/user";
 import { IUser } from "../types/user";
@@ -8,10 +9,12 @@ import { IUser } from "../types/user";
 passport.use(
   new GitHubStrategy(
     {
-      clientID: process.env.GITHUB_CLIENT_ID || "your-github-client-id",
-      clientSecret: process.env.GITHUB_SECRET || "your-github-secret",
+      clientID: config.get("github.clientId"),
+      clientSecret: config.get("github.secret"),
       passReqToCallback: true,
-      callbackURL: `http://${process.env.APP_HOST}:${process.env.APP_PORT || 3000}/github/callback`,
+      callbackURL: `http://${config.get("app.host")}:${config.get(
+        "app.port"
+      )}/github/callback`,
     },
     async (
       req: CustomRequest,
